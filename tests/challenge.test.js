@@ -3,8 +3,11 @@
 const fs = require("fs");
 const path = require("path");
 
-// Define the path to the answers folder
-const answersFolderPath = path.join(__dirname, "answers");
+// Get the path to the root directory
+const rootPath = path.resolve(__dirname, ".."); // Assuming the code file is in the "tests" directory
+
+// Update the path to the answers folder
+const answersFolderPath = path.join(rootPath, "answers");
 
 // Get the list of files in the answers folder
 const userChallengeFiles = fs.readdirSync(answersFolderPath);
