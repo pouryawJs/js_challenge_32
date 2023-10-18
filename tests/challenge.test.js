@@ -1,44 +1,28 @@
-"use strict";
-
+// challenge.test.js
 const fs = require("fs");
 const path = require("path");
+const multiply = require("../js_challenges");
 
-// Get the path to the root directory
-const rootPath = path.resolve(__dirname, ".."); // Assuming the code file is in the "tests" directory
+describe("Multiplication function", () => {
+  // Get the list of JavaScript files in the answers folder
+  const answersFolder = path.join(__dirname, "../answers");
+  const answerFiles = fs.readdirSync(answersFolder);
 
-// Update the path to the answers folder
-const answersFolderPath = path.join(rootPath, "answers");
+  // Define the test cases
+  const testCases = [
+    [1, 2],
+    [3, 9],
+    [-2, 4],
+  ];
 
-// Get the list of files in the answers folder
-const userChallengeFiles = fs.readdirSync(answersFolderPath);
+  // Iterate over each JavaScript file and run the tests
+  answerFiles.forEach((file) => {
+    const answer = require(path.join(answersFolder, file));
 
-// Find the js_challenges.js file
-const jsChallengesFilePath = path.join(answersFolderPath, "js_challenges.js");
-const jsChallenges = require(jsChallengesFilePath);
-
-// Loop through each user file and run the tests
-userChallengeFiles.forEach((fileName) => {
-  describe(`User Challenge - ${fileName}`, () => {
-    if (fileName === "js_challenges.js") {
-      const filePath = path.join(answersFolderPath, fileName);
-      const userMultiply = require(filePath);
-
-      // Add your test cases here
-      test("multiplies two positive numbers correctly", () => {
-        const expected = jsChallenges.multiply(2, 3); // Expected answer from js_challenges.js
-        const actual = userMultiply(2, 3); // User's answer
-        expect(actual).toBe(expected);
+    testCases.forEach((inputs, index) => {
+      test(`Test case ${index + 1} in ${file}`, () => {
+        expect(answer(...inputs)).toEqual(multiply(...inputs));
       });
-
-      test("multiplies positive and negative numbers correctly", () => {
-        const expected = jsChallenges.multiply(4, -2); // Expected answer from js_challenges.js
-        const actual = userMultiply(4, -2); // User's answer
-        expect(actual).toBe(expected);
-      });
-
-      return; // Skip further processing for js_challenges.js file
-    }
-
-    // Handle other user files if needed
+    });
   });
 });
