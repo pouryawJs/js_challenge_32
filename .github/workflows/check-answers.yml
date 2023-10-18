@@ -3,7 +3,7 @@ name: Check Answers
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   check-answers:
