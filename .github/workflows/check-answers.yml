@@ -24,3 +24,10 @@ jobs:
 
       - name: Run tests
         run: npm test -- tests/challenge.test.js
+
+      - name: Merge pull request
+        if: ${{ success() }}
+        uses: pullreminders/merge-action@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          method: merge
