@@ -1,4 +1,3 @@
-// challenge.test.js
 const fs = require("fs");
 const path = require("path");
 const multiply = require("../js_challenges");
@@ -6,7 +5,6 @@ const multiply = require("../js_challenges");
 describe("Multiplication function", () => {
   // Get the list of JavaScript files in the answers folder
   const answersFolder = path.join(__dirname, "../answers");
-  const answerFiles = fs.readdirSync(answersFolder);
 
   // Define the test cases
   const testCases = [
@@ -16,13 +14,15 @@ describe("Multiplication function", () => {
   ];
 
   // Iterate over each JavaScript file and run the tests
-  answerFiles.forEach((file) => {
-    const answer = require(path.join(answersFolder, file));
+  fs.readdirSync(answersFolder).forEach((file) => {
+    if (file.endsWith(".js")) {
+      const answer = require(path.join(answersFolder, file));
 
-    testCases.forEach((inputs, index) => {
-      test(`Test case ${index + 1} in ${file}`, () => {
-        expect(answer(...inputs)).toEqual(multiply(...inputs));
+      testCases.forEach((inputs, index) => {
+        test(`Test case ${index + 1} in ${file}`, () => {
+          expect(answer(...inputs)).toEqual(multiply(...inputs));
+        });
       });
-    });
+    }
   });
 });
